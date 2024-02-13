@@ -1,9 +1,15 @@
 import './App.css';
-import Layout from './components/Layout';
+import Layout from './pages/Layout';
 import Navbar from './components/Navbar';
-import { Button } from 'flowbite-react';
+import { useContext, useEffect } from 'react';
+import ItemsContext from './context/items';
 
 function App() {
+  const { fetchData } = useContext(ItemsContext) 
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div className='h-full bg-[#F9F9F9]'>
       <Navbar></Navbar>
