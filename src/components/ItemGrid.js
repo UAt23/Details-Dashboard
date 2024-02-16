@@ -20,7 +20,7 @@ function ItemGrid() {
             )
          } else {
             pages.push(
-               <li key={i} onClick={() => {onPageIndexClicked(i)}}>
+               <li key={i} onClick={() => { onPageIndexClicked(i) }}>
                   <a href="#" className="flex items-center justify-center px-2 h-6 leading-tight text-[#00000050] hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{i}</a>
                </li>
             )
@@ -44,30 +44,40 @@ function ItemGrid() {
 
    return (
       <div className='flex flex-1 flex-col gap-2.5'>
-         <div className='flex justify-center flex-wrap gap-6 h-[80vh] overflow-auto'>
-            {displayedItems.length > 0 ? displayedItems : <div className='flex justify-center text-lg text-[#2A59FE] font-semibold'>No products found</div>}
-         </div>
-         <nav aria-label="Pagination" className='flex justify-center'>
-            <ul className="flex items-center gap-1 -space-x-px h-6 text-sm">
-               <li onClick={onPreviousPage}>
-                  <a href="#" className="flex items-center justify-center px-2 h-6 ms-0 leading-tight text-[#00000050] rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                     <span className="sr-only">Previous</span>
-                     <svg className="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
-                     </svg>
-                  </a>
-               </li>
-               {paginator}
-               <li onClick={onNextPage}>
-                  <a href="#" className="flex items-center justify-center px-2 h-6 leading-tight text-[#00000050]  rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                     <span className="sr-only">Next</span>
-                     <svg className="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
-                     </svg>
-                  </a>
-               </li>
-            </ul>
-         </nav>
+         {
+            displayedItems.length > 0
+               ?
+               <div className='flex flex-col gap-2.5 justify-center'>
+                  <div className='flex justify-start flex-wrap gap-6 h-[80vh] overflow-auto'>
+                     {displayedItems}
+                  </div>
+                  <nav aria-label="Pagination" className='flex justify-center'>
+                     <ul className="flex items-center gap-1 -space-x-px h-6 text-sm">
+                        <li onClick={onPreviousPage}>
+                           <a href="#" className="flex items-center justify-center px-2 h-6 ms-0 leading-tight text-[#00000050] rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                              <span className="sr-only">Previous</span>
+                              <svg className="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+                              </svg>
+                           </a>
+                        </li>
+                        {paginator}
+                        <li onClick={onNextPage}>
+                           <a href="#" className="flex items-center justify-center px-2 h-6 leading-tight text-[#00000050]  rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                              <span className="sr-only">Next</span>
+                              <svg className="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                              </svg>
+                           </a>
+                        </li>
+                     </ul>
+                  </nav>
+               </div>
+               :
+               <div className='flex justify-center text-lg text-[#2A59FE] font-semibold'>No products found</div>
+         }
+
+
       </div>
 
    )

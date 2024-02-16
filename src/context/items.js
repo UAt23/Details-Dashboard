@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import getAllItems from "../api";
 import SORTTYPE from "../constants/sort";
 
@@ -10,6 +10,7 @@ function Provider({ children }) {
    // ITEM STATE
    const [selectedItem, setSelectedItem] = useState();
    // FILTER STATES
+   const [queryText, setQueryText] = useState('');
    const [sort, setSort] = useState(SORTTYPE.oldNew);
    const [brands, setBrands] = useState([]);
    const [models, setModels] = useState([]);
@@ -23,6 +24,10 @@ function Provider({ children }) {
    });
    // PAGE LOADING STATE
    const [pageLoading, setPageLoading] = useState(true);
+
+   useEffect(() => {
+      filterDisplayedData();
+   }, [queryText, brands, models, sort])
 
 
    async function fetchData() {
@@ -60,15 +65,8 @@ function Provider({ children }) {
 
    // Search ----------------------------------------------------------------
 
-   function search(query) {
-      const found = appData && appData.filter(element => {
-         const searchFields = ["name"];
-
-         return searchFields.some((field) =>
-            element[field].toLowerCase().includes(query.toLowerCase())
-         );
-      })
-      paginateData(found);
+   function setQuery(query) {
+      setQueryText(query);
    }
 
    // Filters ----------------------------------------------------------------
@@ -77,15 +75,88 @@ function Provider({ children }) {
       let models
       let brands
       if (data) {
-         models = data.map(item => {
+         models = [...new Set(data.map(item => {
             return item.model
+         }))].map(item => {
+            return {
+               label: item,
+               checked: false
+            }
          })
-         brands = data.map(item => {
+         brands = [...new Set(data.map(item => {
             return item.brand
+         }))].map(item => {
+            return {
+               label: item,
+               checked: false
+            }
          })
          setModels(models);
          setBrands(brands);
       }
+   }
+   function updateSelectedModels(change) {
+      const updatedModels = models.map((model) => {
+         if (model.label === Object.keys(change)[0]) {
+            return { ...model, checked: Object.values(change)[0] };
+         }
+         return model;
+      })
+      setModels(updatedModels);
+   }
+   function updateSelectedBrands(change) {
+      const updatedBrands = brands.map((brand) => {
+         if (brand.label === Object.keys(change)[0]) {
+            return { ...brand, checked: Object.values(change)[0] };
+         }
+         return brand;
+      })
+      setBrands(updatedBrands);
+   }
+
+   function filterDisplayedData() {
+      let filteredData = [...appData]
+      
+      filteredData = sortProducts(filteredData);
+
+      if (queryText) {
+         filteredData = filteredData.filter(
+            (element) => element.name.toLowerCase().includes(queryText.toLowerCase())
+         );
+      }
+      const selectedBrands = brands.filter((brand) => brand.checked).map((brand) => brand.label);
+      if (selectedBrands.length > 0) {
+         filteredData = filteredData.filter((item) => selectedBrands.includes(item.brand));
+      };
+
+      const selectedModels = models.filter((model) => model.checked).map((model) => model.label);
+      if (selectedModels.length > 0) {
+         filteredData = filteredData.filter((item) => selectedModels.includes(item.model));
+      };
+      paginateData(filteredData);
+   }
+
+   function setSortContext(sortType) {
+      setSort(sortType)
+   }
+
+   function sortProducts(data) {
+      let sortedData;
+      console.log(sort)
+      switch (sort) {
+         case SORTTYPE.newOld:
+            sortedData = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            break;
+         case SORTTYPE.lowHigh:
+            sortedData = data.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+            break;
+         case SORTTYPE.highLow:
+            sortedData = data.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+            break;
+         default:
+            sortedData = data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      }
+      return sortedData;
    }
 
    // Cart --------------------------------
@@ -142,9 +213,12 @@ function Provider({ children }) {
       fetchData,
       paginate,
       updatePaginator,
-      search,
+      setQuery,
+      setSortContext,
       models,
+      updateSelectedModels,
       brands,
+      updateSelectedBrands,
       cart,
       updateCart,
       increaseItemAmount,

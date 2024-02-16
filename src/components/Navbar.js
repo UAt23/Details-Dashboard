@@ -2,12 +2,13 @@ import React, { useContext, useState } from 'react'
 import ItemsContext from '../context/items'
 
 function Navbar() {
-   const { total, search } = useContext(ItemsContext);
-   const [querySting, setQuery] = useState('');
+   const { total, setQuery } = useContext(ItemsContext);
+   const [querySting, setQueryText] = useState('');
 
    const setSearchText = (query) => {
-      setQuery(query);
-      search(query)
+      setQueryText(query);
+      console.log(query);
+      setQuery(query)
    }
 
    return (

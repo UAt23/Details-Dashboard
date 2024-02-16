@@ -22,7 +22,7 @@ function Item({ item }) {
                <p className="mb-1 font-medium text-black text-xs">{item.brand}</p>
                <p className="mb-1 font-medium text-black text-xs">{item.model}</p>
             </div>
-            <p onClick={addToCart}  href="#" className="w-full inline-flex items-center justify-center px-1 py-1 rounded-[4px] text-base font-normal text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <p onClick={addToCart} href="#" className="w-full inline-flex items-center justify-center px-1 py-1 rounded-[4px] text-base font-normal text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                Add to Cart
             </p>
          </div>
