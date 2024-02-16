@@ -80,7 +80,8 @@ function Provider({ children }) {
          }))].map(item => {
             return {
                label: item,
-               checked: false
+               checked: false,
+               displayed: true
             }
          })
          brands = [...new Set(data.map(item => {
@@ -88,7 +89,8 @@ function Provider({ children }) {
          }))].map(item => {
             return {
                label: item,
-               checked: false
+               checked: false,
+               displayed: true
             }
          })
          setModels(models);
@@ -116,7 +118,7 @@ function Provider({ children }) {
 
    function filterDisplayedData() {
       let filteredData = [...appData]
-      
+
       filteredData = sortProducts(filteredData);
 
       if (queryText) {
@@ -142,7 +144,6 @@ function Provider({ children }) {
 
    function sortProducts(data) {
       let sortedData;
-      console.log(sort)
       switch (sort) {
          case SORTTYPE.newOld:
             sortedData = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -157,6 +158,29 @@ function Provider({ children }) {
             sortedData = data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
       }
       return sortedData;
+   }
+
+   function searchBrands(txt) {
+      console.log(txt);
+      const updated = brands.map(brand => {
+         console.log(brand);
+         if (brand.label.toLowerCase().includes(txt.toLowerCase())) {
+            return {...brand, displayed: true};
+         } else {
+            return {...brand, displayed: false};
+         }
+      })
+      setBrands(updated);
+   }
+   function searchModels(txt) {
+      const updated = models.map(model => {
+         if (model.label.toLowerCase().includes(txt.toLowerCase())) {
+            return {...model, displayed: true};
+         } else {
+            return {...model, displayed: false};
+         }
+      })
+      setModels(updated);
    }
 
    // Cart --------------------------------
@@ -217,8 +241,10 @@ function Provider({ children }) {
       setSortContext,
       models,
       updateSelectedModels,
+      searchModels,
       brands,
       updateSelectedBrands,
+      searchBrands,
       cart,
       updateCart,
       increaseItemAmount,

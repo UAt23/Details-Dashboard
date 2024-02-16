@@ -7,7 +7,6 @@ function Navbar() {
 
    const setSearchText = (query) => {
       setQueryText(query);
-      console.log(query);
       setQuery(query)
    }
 

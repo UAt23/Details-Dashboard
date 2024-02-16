@@ -4,9 +4,19 @@ import Spinner from './Spinner';
 import SORTTYPE from "../constants/sort";
 
 function Filters() {
-   const { models, brands, setSortContext, updateSelectedModels, updateSelectedBrands } = useContext(ItemsContext);
-
+   const { 
+      models, 
+      brands, 
+      setSortContext, 
+      updateSelectedModels, 
+      updateSelectedBrands,
+      searchBrands,
+      searchModels  
+   
+   } = useContext(ItemsContext);
    const [ sort, setSortType ]  = useState(SORTTYPE.oldNew);
+   const [ searchB, setBrandQuery] = useState('');
+   const [ searchM, setModelQuery] = useState('');
 
    const selectModel = (selection) => {
       updateSelectedModels(selection);
@@ -18,7 +28,7 @@ function Filters() {
 
    const renderModels = models.map((model, index) => {
       return (
-         <li key={index} className="w-full border-gray-200 rounded-t-lg dark:border-gray-600">
+         <li key={index} style={ model.displayed ? { display: 'block'} : { display: 'none' }} className="w-full border-gray-200 rounded-t-lg dark:border-gray-600">
             <div className="flex items-center ps-3">
                <input id="vue-checkbox" type="checkbox" value={model.label} checked={model.checked} onChange={(event) => {selectModel({[model.label]: event.target.checked})}} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                </input>
@@ -29,7 +39,7 @@ function Filters() {
    });
    const renderBrands = brands.map((brand, index) => {
       return (
-         <li key={index} className="w-full border-gray-200 rounded-t-lg dark:border-gray-600">
+         <li key={index} style={ brand.displayed ? { display: 'block'} : { display: 'none' }} className="w-full border-gray-200 rounded-t-lg dark:border-gray-600">
             <div className="flex items-center ps-3 ">
                <input id="laravel-checkbox" type="checkbox" value={brand.label} checked={brand.checked} onChange={(event) => {selectBrand({[brand.label]: event.target.checked})}} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                </input>
@@ -42,6 +52,15 @@ function Filters() {
    const setListSort = (sortType) => {
       setSortType(sortType);
       setSortContext(sortType);
+   }
+
+   const searchForBrands = (txt) => {
+      setBrandQuery(txt);
+      searchBrands(txt);
+   }
+   const searchForModels = (txt) => {
+      setModelQuery(txt);
+      searchModels(txt);
    }
 
 
@@ -92,7 +111,7 @@ function Filters() {
                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                         </svg>
                      </div>
-                     <input type="search" id="default-search" className="block w-3/4 p-2 ps-10 text-sm text-gray-900 border-0 shadow-[0px_4px_4px_0px_rgba(0, 0, 0, 0.25);] bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search" required>
+                     <input value={searchB} onChange={(event) => searchForBrands(event.target.value)} type="search" id="default-search" className="block w-3/4 p-2 ps-10 text-sm text-gray-900 border-0 shadow-[0px_4px_4px_0px_rgba(0, 0, 0, 0.25);] bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search">
                      </input>
                   </div>
                </form>
@@ -113,7 +132,7 @@ function Filters() {
                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                         </svg>
                      </div>
-                     <input type="search" id="default-search" className="block w-3/4 p-2 ps-10 text-sm text-gray-900 border-0 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search" required>
+                     <input value={searchM} onChange={(event) => searchForModels(event.target.value)} type="search" id="default-search" className="block w-3/4 p-2 ps-10 text-sm text-gray-900 border-0 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search">
                      </input>
                   </div>
                </form>
