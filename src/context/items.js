@@ -37,6 +37,13 @@ function Provider({ children }) {
       createFilterData(res);
    }
 
+   // Selected Item ----------------------------------------------------------------
+
+   function setSelected(item) {
+      console.log(item);
+      setSelectedItem(item);
+   }
+
    // PAGINATOR ----------------------------------------------------------------
 
    function paginateData(items, page = 1, perPage = 12) {
@@ -235,6 +242,8 @@ function Provider({ children }) {
    const appContext = {
       displayedData,
       fetchData,
+      selectedItem,
+      setSelected,
       paginate,
       updatePaginator,
       setQuery,

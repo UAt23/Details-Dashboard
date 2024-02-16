@@ -3,7 +3,8 @@ import Item from './Item'
 import ItemsContext from '../context/items'
 
 function ItemGrid() {
-   const { displayedData, paginate, updatePaginator } = useContext(ItemsContext)
+   const { displayedData, paginate, updatePaginator, setSelected } = useContext(ItemsContext);
+   
    const displayedItems = displayedData.map((item) => {
       return <Item key={item.id} item={item}></Item>
    });
