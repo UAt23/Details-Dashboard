@@ -4,14 +4,13 @@ import ItemsContext from '../context/items'
 function Detail() {
     const { selectedItem, updateCart } = useContext(ItemsContext);
 
-    console.log(selectedItem);
     const addToCart = () => {
         updateCart(selectedItem);
     }
     return (
-        <div className='flex flex-1 flex-row'>
+        <div className='grid xl:grid-cols-10 xl:gap-7 xl:col-start-1 xl:col-end-11'>
             {selectedItem
-                ? <div class="flex flex-col flex-1 h-96 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row">
+                ? <div class="row-start-1 row-end-4 xl:col-start-1 xl:col-end-11 flex flex-col flex-1 h-full xl:h-96 items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row">
                     <img class="object-cover w-96 rounded-t-lg h-full md:rounded-none md:rounded-s-lg" src={selectedItem.image} alt=""></img>
                     <div class="h-full flex flex-col justify-between p-4 leading-normal">
                         <div className='flex flex-col gap-1'>
@@ -28,7 +27,6 @@ function Detail() {
                 </div>
                 : <div>No Data</div>
             }
-
         </div>
     )
 }

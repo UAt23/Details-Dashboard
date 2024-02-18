@@ -8,7 +8,7 @@ function List() {
    const { pageLoading } = useContext(ItemsContext);
 
    return (
-      <div className='flex flex-1 flex-row gap-7'>
+      <div className='grid xl:grid-cols-10 xl:gap-7 xl:col-start-1 xl:col-end-11'>
          <Filters></Filters>
          {
             pageLoading

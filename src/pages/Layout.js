@@ -6,7 +6,7 @@ import List from './List';
 
 function Layout(props) {
    return (
-      <div className='px-10 pt-10 flex gap-7 bg-[#F9F9F9]'>
+      <div className='overflow-y-scroll h-screen px-10 pt-10 bg-[#F9F9F9] grid grid-cols-1 gap-1 mx-auto xl:grid-cols-12 xl:gap-7 xl:mx-auto'>
          <Router>
             <Routes>
                <Route exact path="/" element={<List />} />

@@ -24,10 +24,27 @@ function Provider({ children }) {
    });
    // PAGE LOADING STATE
    const [pageLoading, setPageLoading] = useState(true);
+   const [initialDataRetrieved, setInitialDataRetrieved] = useState(false);
+
+   useEffect(() => {
+      const savedTotal = JSON.parse(localStorage.getItem('total'));
+      const savedCart = JSON.parse(localStorage.getItem('cart'));
+      savedTotal && setTotal(savedTotal);
+      savedCart && setCart([...savedCart]);
+      setInitialDataRetrieved(true);
+   }, []);
+
+   useEffect(() => {
+      if (initialDataRetrieved) {
+         localStorage.setItem('total', JSON.stringify(total));
+         localStorage.setItem('cart', JSON.stringify(cart));
+      }
+   }, [total, cart]);
 
    useEffect(() => {
       filterDisplayedData();
-   }, [queryText, brands, models, sort])
+   }, [queryText, brands, models, sort]);
+
 
 
    async function fetchData() {
@@ -40,7 +57,6 @@ function Provider({ children }) {
    // Selected Item ----------------------------------------------------------------
 
    function setSelected(item) {
-      console.log(item);
       setSelectedItem(item);
    }
 

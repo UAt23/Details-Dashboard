@@ -14,10 +14,10 @@ function Product({ item }) {
 
    return (
       <li className="w-full border-gray-200 rounded-t-lg p-2.5">
-         <div className="max-w-xs mx-auto flex justify-between gap-1">
+         <div className="xl:max-w-xs mx-auto flex justify-between gap-1">
             <div className='flex flex-col'>
-               <label for="quantity-input" className="block text-xs font-medium text-black">{item.name}</label>
-               <span className='text-[10px] font-medium text-[#2A59FE]'>{item.price}₺</span>
+               <label for="quantity-input" className="block text-lg xl:text-xs font-medium text-black">{item.name}</label>
+               <span className='text-base xl:text-[10px] font-medium text-[#2A59FE]'>{item.price}₺</span>
             </div>
             <div className="relative flex items-center max-w-[8rem]">
                <button onClick={() => decreaseAmount(item)} type="button" id="decrement-button" data-input-counter-decrement="quantity-input" className="bg-[#F3F4F6] hover:bg-gray-200  rounded-s-lg p-2 h-7 focus:ring-gray-100 focus:ring-2 focus:outline-none">
